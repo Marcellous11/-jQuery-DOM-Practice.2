@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous">
+        </script>
+    <script>
+
+        // create a form 
+        $('body').prepend('<form></form>')
+
+        $('form').append('<label id="movie"> Enter Movie Name </label>')
+        $('form').append('<input type="text" required minlength="2">')
+        $('form').append('<label id="rating"> Enter Movie Rating </label>')
+        $('form').append('<input type="number" max="10" min="0" value="5">')
+        $('form').append('<input  id="btn" type="submit">')
+        // a place for the form
+        $('<ul id="rawList"></ul>').insertAfter('form')
+
+        let movieArr = [];
+        let ratingArr = [];
+
+        $('#btn').on('click', function (e) {
+            e.preventDefault();
+
+            let movieName = $("input").eq(0).val()
+            let movieRating = $("input").eq(1).val()
+
+            if (movieName.length < 3) {
+                //if true, dont run the rest of the code 
+                // exit doesnt really work but it works for now. 
+                alert("Movie name must be more than two Characters long");
+                exit();
+
+            }
+
+            movieArr.push(movieName);
+            // ratingArr.push($("input").eq(1).val().sort());
+
+            $('#rawList').append(`<li id="li1">Movie Name: "${movieName}" ... Rating: ${movieRating}/10 stars. <button id="deleteBtn"> X </button></li>`)
+
+            $('button').on('click', function () {
+                $(this).closest('li').remove();
+            });
+
+            // this next part will be tricky
+            // i need to some how be able to sort the movies aphabetically and numerically. Start here  
+
+            $('form').trigger('reset');
+        });
+
+        $('<button id="abc"> Alphabetically </button>').insertAfter('form')
+        $('#abc').on('click', function () {
+            $('#rawList').empty()
+
+            let orderedMovies = movieArr.sort()
+
+            for (let movie of orderedMovies) {
+                $('#rawList').append(`<li > Movie Name: "${movie}" </li>`)
+            }
+            // couldnt figure out how to combine rating value and ordered movie list.
+
+            // for (num of ratingArr) {
+            //     $('li').append(`... Rating: ${num}/10 stars. <button id="deleteBtn"> X </button>`)
+            // }
+
+        })
+
+        // create a place to put the values from the form
+
+
+
+    </script>
+
+</body>
+
+</html>
